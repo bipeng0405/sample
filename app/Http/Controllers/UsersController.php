@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Models\User;
+use Auth;
 
 class UsersController extends Controller
 {
@@ -38,7 +39,10 @@ class UsersController extends Controller
             'password' => bcrypt($request->password),
         ]);
         // flash 为 session 方法存入一条缓存数据，让他只在下一次请求内有效
-        session()->flash('success','欢迎，你将在这里开始一段新的旅程');
+        // session()->flash('success','欢迎，你将在这里开始一段新的旅程');
+        // return redirect()->route('users.show',[$user]);
+        Auth::login($user);
+        session()->flash('success','欢迎，您将在这里开始一段新的旅程');
         return redirect()->route('users.show',[$user]);
     }
 }
